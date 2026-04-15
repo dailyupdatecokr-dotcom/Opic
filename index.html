@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPIc 과거형 드릴 | Past Tense Practice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --text-primary: #e8f0f2;
+            --text-secondary: #8b95a5;
+            --error: #ff4757;
+            --success: #00ff88;
+            --border: #2d3550;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(100, 100, 255, 0.03) 0%, transparent 50%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: slideDown 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .score-item {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .score-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .score-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .question-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #00ccff);
+        }
+
+        .question-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .question-korean {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .sentence-practice {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--accent-dim);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sentence-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.8rem;
+        }
+
+        .sentence-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .blank {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: var(--accent-dim);
+        }
+
+        .verb-hint {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .countdown-timer {
+            text-align: center;
+            margin: 2rem 0;
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .timer-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background: var(--bg-primary);
+            border: 4px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(0, 255, 136, 0); }
+        }
+
+        .timer-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .timer-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .answer-reveal {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            animation: revealPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes revealPop {
+            0% { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(2deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .reveal-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .reveal-answer {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .reveal-forms {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .reveal-hint {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            display: inline-block;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-dim);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .score-board {
+                gap: 1rem;
+            }
+
+            .score-item {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OPIc Past Tense Drill</h1>
+            <p class="subtitle">100개 불규칙 동사 × 20개 기출문장 완벽 정복</p>
+        </header>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">완료</div>
+                <div class="score-value" id="correct">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">학습 동사</div>
+                <div class="score-value" id="progress">0/100</div>
+            </div>
+        </div>
+
+        <div class="question-card" id="questionCard">
+            <div class="question-number" id="questionNumber">Question 1</div>
+            <div class="question-text" id="questionText"></div>
+            <div class="question-korean" id="questionKorean"></div>
+            
+            <div class="sentence-practice">
+                <div class="sentence-label">실전 문장 연습</div>
+                <div class="sentence-text" id="sentenceText"></div>
+            </div>
+
+            <div class="countdown-timer" id="countdown">
+                <div class="timer-circle">
+                    <div class="timer-number" id="timerNumber">3</div>
+                </div>
+                <div class="timer-label">초 후 정답 공개</div>
+            </div>
+
+            <div class="answer-reveal" id="answerReveal" style="display: none;">
+                <div class="reveal-label">정답</div>
+                <div class="reveal-answer" id="revealAnswer"></div>
+                <div class="reveal-forms" id="revealForms"></div>
+                <div class="reveal-hint">스페이스바를 눌러 다음 문제로 →</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with Claude × OPIc 실전 기출 | <a href="https://dailyupdate.co.kr" target="_blank">dailyupdate.co.kr</a></p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // 100개 불규칙 동사 데이터
+        const verbs = [
+            {base: "become", past: "became", pp: "become"},
+            {base: "begin", past: "began", pp: "begun"},
+            {base: "bend", past: "bent", pp: "bent"},
+            {base: "bet", past: "bet", pp: "bet"},
+            {base: "bite", past: "bit", pp: "bitten"},
+            {base: "blow", past: "blew", pp: "blown"},
+            {base: "break", past: "broke", pp: "broken"},
+            {base: "bring", past: "brought", pp: "brought"},
+            {base: "build", past: "built", pp: "built"},
+            {base: "burn", past: "burnt", pp: "burnt"},
+            {base: "buy", past: "bought", pp: "bought"},
+            {base: "catch", past: "caught", pp: "caught"},
+            {base: "choose", past: "chose", pp: "chosen"},
+            {base: "come", past: "came", pp: "come"},
+            {base: "cost", past: "cost", pp: "cost"},
+            {base: "cut", past: "cut", pp: "cut"},
+            {base: "deal", past: "dealt", pp: "dealt"},
+            {base: "do", past: "did", pp: "done"},
+            {base: "draw", past: "drew", pp: "drawn"},
+            {base: "drink", past: "drank", pp: "drunk"},
+            {base: "drive", past: "drove", pp: "driven"},
+            {base: "eat", past: "ate", pp: "eaten"},
+            {base: "fall", past: "fell", pp: "fallen"},
+            {base: "feed", past: "fed", pp: "fed"},
+            {base: "feel", past: "felt", pp: "felt"},
+            {base: "fight", past: "fought", pp: "fought"},
+            {base: "find", past: "found", pp: "found"},
+            {base: "fly", past: "flew", pp: "flown"},
+            {base: "forget", past: "forgot", pp: "forgotten"},
+            {base: "forgive", past: "forgave", pp: "forgiven"},
+            {base: "freeze", past: "froze", pp: "frozen"},
+            {base: "get", past: "got", pp: "gotten"},
+            {base: "give", past: "gave", pp: "given"},
+            {base: "go", past: "went", pp: "gone"},
+            {base: "grow", past: "grew", pp: "grown"},
+            {base: "hang", past: "hung", pp: "hung"},
+            {base: "have", past: "had", pp: "had"},
+            {base: "hear", past: "heard", pp: "heard"},
+            {base: "hide", past: "hid", pp: "hidden"},
+            {base: "hit", past: "hit", pp: "hit"},
+            {base: "hold", past: "held", pp: "held"},
+            {base: "hurt", past: "hurt", pp: "hurt"},
+            {base: "keep", past: "kept", pp: "kept"},
+            {base: "know", past: "knew", pp: "known"},
+            {base: "lay", past: "laid", pp: "laid"},
+            {base: "lead", past: "led", pp: "led"},
+            {base: "leave", past: "left", pp: "left"},
+            {base: "lend", past: "lent", pp: "lent"},
+            {base: "let", past: "let", pp: "let"},
+            {base: "lie", past: "lay", pp: "lain"},
+            {base: "light", past: "lit", pp: "lit"},
+            {base: "lose", past: "lost", pp: "lost"},
+            {base: "make", past: "made", pp: "made"},
+            {base: "mean", past: "meant", pp: "meant"},
+            {base: "meet", past: "met", pp: "met"},
+            {base: "overcome", past: "overcame", pp: "overcome"},
+            {base: "oversleep", past: "overslept", pp: "overslept"},
+            {base: "pay", past: "paid", pp: "paid"},
+            {base: "put", past: "put", pp: "put"},
+            {base: "quit", past: "quit", pp: "quit"},
+            {base: "read", past: "read", pp: "read"},
+            {base: "ride", past: "rode", pp: "ridden"},
+            {base: "ring", past: "rang", pp: "rung"},
+            {base: "rise", past: "rose", pp: "risen"},
+            {base: "run", past: "ran", pp: "run"},
+            {base: "say", past: "said", pp: "said"},
+            {base: "see", past: "saw", pp: "seen"},
+            {base: "sell", past: "sold", pp: "sold"},
+            {base: "send", past: "sent", pp: "sent"},
+            {base: "set", past: "set", pp: "set"},
+            {base: "shake", past: "shook", pp: "shaken"},
+            {base: "shine", past: "shone", pp: "shone"},
+            {base: "shoot", past: "shot", pp: "shot"},
+            {base: "show", past: "showed", pp: "shown"},
+            {base: "shut", past: "shut", pp: "shut"},
+            {base: "sing", past: "sang", pp: "sung"},
+            {base: "sink", past: "sank", pp: "sunk"},
+            {base: "sit", past: "sat", pp: "sat"},
+            {base: "sleep", past: "slept", pp: "slept"},
+            {base: "slide", past: "slid", pp: "slid"},
+            {base: "speak", past: "spoke", pp: "spoken"},
+            {base: "spend", past: "spent", pp: "spent"},
+            {base: "stand", past: "stood", pp: "stood"},
+            {base: "steal", past: "stole", pp: "stolen"},
+            {base: "stick", past: "stuck", pp: "stuck"},
+            {base: "strike", past: "struck", pp: "struck"},
+            {base: "swear", past: "swore", pp: "sworn"},
+            {base: "sweep", past: "swept", pp: "swept"},
+            {base: "swim", past: "swam", pp: "swum"},
+            {base: "take", past: "took", pp: "taken"},
+            {base: "teach", past: "taught", pp: "taught"},
+            {base: "tear", past: "tore", pp: "torn"},
+            {base: "tell", past: "told", pp: "told"},
+            {base: "think", past: "thought", pp: "thought"},
+            {base: "throw", past: "threw", pp: "thrown"},
+            {base: "understand", past: "understood", pp: "understood"},
+            {base: "wake", past: "woke", pp: "woken"},
+            {base: "wear", past: "wore", pp: "worn"},
+            {base: "win", past: "won", pp: "won"},
+            {base: "write", past: "wrote", pp: "written"}
+        ];
+
+        // 20개 기출 문제 템플릿
+        const questions = [
+            {
+                question: "Tell me about the house you lived in when you were a child.",
+                korean: "어릴 적 살았던 집에 대해 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (live) in a small apartment in Seoul.", verb: "live", answer: "lived"},
+                    {template: "My family ___ (have) a cozy two-bedroom place.", verb: "have", answer: "had"},
+                    {template: "I ___ (spend) most of my childhood there.", verb: "spend", answer: "spent"}
+                ]
+            },
+            {
+                question: "Tell me about a time when you experienced a problem or something unexpected at home.",
+                korean: "집에서 겪었던 문제나 예상치 못한 일에 대해 이야기해 주세요.",
+                sentences: [
+                    {template: "The water pipe ___ (break) in the middle of winter.", verb: "break", answer: "broke"},
+                    {template: "We ___ (freeze) because the heater stopped working.", verb: "freeze", answer: "froze"},
+                    {template: "My dad ___ (come) home early to fix it.", verb: "come", answer: "came"}
+                ]
+            },
+            {
+                question: "Tell me about your first overseas trip in detail.",
+                korean: "처음으로 갔던 해외 여행에 대해 자세히 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (go) to Japan for the first time in 2015.", verb: "go", answer: "went"},
+                    {template: "I ___ (fly) from Incheon to Tokyo.", verb: "fly", answer: "flew"},
+                    {template: "I ___ (eat) the best sushi I've ever had.", verb: "eat", answer: "ate"}
+                ]
+            },
+            {
+                question: "Tell me about a memorable incident you experienced during a trip.",
+                korean: "여행 중 겪었던 잊지 못할 에피소드를 말해 주세요.",
+                sentences: [
+                    {template: "I ___ (lose) my passport at the airport.", verb: "lose", answer: "lost"},
+                    {template: "I ___ (run) back to the gate to find it.", verb: "run", answer: "ran"},
+                    {template: "Thankfully, someone ___ (find) it and turned it in.", verb: "find", answer: "found"}
+                ]
+            },
+            {
+                question: "Do you remember the first time you opened a bank account? Tell me how it was.",
+                korean: "처음으로 은행 계좌를 개설했던 때를 기억하나요? 어땠는지 말해 주세요.",
+                sentences: [
+                    {template: "I ___ (become) an adult and needed my own account.", verb: "become", answer: "became"},
+                    {template: "I ___ (bring) my ID to the bank.", verb: "bring", answer: "brought"},
+                    {template: "The process ___ (take) about 30 minutes.", verb: "take", answer: "took"}
+                ]
+            },
+            {
+                question: "Tell me about the most memorable movie you have seen recently.",
+                korean: "최근에 본 영화 중에서 가장 기억에 남는 영화에 대해 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (see) a fantastic thriller last month.", verb: "see", answer: "saw"},
+                    {template: "The plot twist ___ (blow) my mind.", verb: "blow", answer: "blew"},
+                    {template: "I ___ (feel) emotional throughout the film.", verb: "feel", answer: "felt"}
+                ]
+            },
+            {
+                question: "How did you first get interested in music?",
+                korean: "처음 음악에 관심을 갖게 된 계기가 무엇인가요?",
+                sentences: [
+                    {template: "My mom ___ (teach) me piano when I was seven.", verb: "teach", answer: "taught"},
+                    {template: "I ___ (begin) to love classical music.", verb: "begin", answer: "began"},
+                    {template: "That early experience ___ (lead) to my passion today.", verb: "lead", answer: "led"}
+                ]
+            },
+            {
+                question: "Tell me about a special or memorable experience you had at a park.",
+                korean: "공원에서 겪었던 특별하거나 기억에 남는 경험을 말해 주세요.",
+                sentences: [
+                    {template: "I ___ (meet) my best friend at the park.", verb: "meet", answer: "met"},
+                    {template: "We ___ (sit) on a bench and talked for hours.", verb: "sit", answer: "sat"},
+                    {template: "Since then, we ___ (keep) in touch for years.", verb: "keep", answer: "kept"}
+                ]
+            },
+            {
+                question: "Tell me about your memories of going to the beach when you were a child.",
+                korean: "어릴 적 해변에 갔던 기억에 대해 이야기해 주세요.",
+                sentences: [
+                    {template: "My family ___ (drive) to the coast every summer.", verb: "drive", answer: "drove"},
+                    {template: "I ___ (swim) in the ocean and built sandcastles.", verb: "swim", answer: "swam"},
+                    {template: "Those memories ___ (stick) with me forever.", verb: "stick", answer: "stuck"}
+                ]
+            },
+            {
+                question: "Have you had any interesting experiences or problems while using public transportation?",
+                korean: "대중교통을 이용하면서 겪었던 흥미로운 일이나 문제가 있었나요?",
+                sentences: [
+                    {template: "I ___ (fall) asleep on the subway once.", verb: "fall", answer: "fell"},
+                    {template: "I ___ (wake) up at the last stop.", verb: "wake", answer: "woke"},
+                    {template: "I ___ (catch) a taxi back home late at night.", verb: "catch", answer: "caught"}
+                ]
+            },
+            {
+                question: "Explain how you first started your current hobby.",
+                korean: "현재의 취미를 처음 시작하게 된 계기에 대해 설명해 주세요.",
+                sentences: [
+                    {template: "A friend ___ (give) me a guitar as a gift.", verb: "give", answer: "gave"},
+                    {template: "I ___ (buy) some beginner books online.", verb: "buy", answer: "bought"},
+                    {template: "I ___ (grow) more passionate about it over time.", verb: "grow", answer: "grew"}
+                ]
+            },
+            {
+                question: "Tell me about the first time you used the internet.",
+                korean: "처음으로 인터넷을 사용했던 때를 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (get) my first computer in elementary school.", verb: "get", answer: "got"},
+                    {template: "I ___ (hear) a strange dial-up sound.", verb: "hear", answer: "heard"},
+                    {template: "The internet ___ (open) a whole new world for me.", verb: "open", answer: "opened"}
+                ]
+            },
+            {
+                question: "Tell me about an experience when you panicked because a gadget or computer broke down.",
+                korean: "전자기기나 컴퓨터가 고장 나서 당황했던 경험을 말해 주세요.",
+                sentences: [
+                    {template: "My laptop screen ___ (go) completely black.", verb: "go", answer: "went"},
+                    {template: "I ___ (shake) the computer hoping it would work.", verb: "shake", answer: "shook"},
+                    {template: "Eventually, I ___ (send) it to a repair shop.", verb: "send", answer: "sent"}
+                ]
+            },
+            {
+                question: "Describe the situation when you first met your best friend.",
+                korean: "가장 친한 친구를 처음 만났을 때의 상황을 묘사해 주세요.",
+                sentences: [
+                    {template: "We ___ (stand) next to each other in class.", verb: "stand", answer: "stood"},
+                    {template: "She ___ (say) something funny and I laughed.", verb: "say", answer: "said"},
+                    {template: "We ___ (become) close friends instantly.", verb: "become", answer: "became"}
+                ]
+            },
+            {
+                question: "Tell me about an experience where you were dissatisfied or had a problem at a restaurant.",
+                korean: "식당에서 불만족스러웠거나 문제가 있었던 경험을 말해 주세요.",
+                sentences: [
+                    {template: "The waiter ___ (bring) the wrong dish to our table.", verb: "bring", answer: "brought"},
+                    {template: "I ___ (tell) him about the mistake politely.", verb: "tell", answer: "told"},
+                    {template: "They ___ (make) a new one and apologized.", verb: "make", answer: "made"}
+                ]
+            },
+            {
+                question: "If you have a memorable incident that happened at a cafe, please tell me about it.",
+                korean: "카페에서 있었던 잊지 못할 에피소드가 있다면 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (drink) my coffee too fast and burned my tongue.", verb: "drink", answer: "drank"},
+                    {template: "The barista ___ (give) me some cold water.", verb: "give", answer: "gave"},
+                    {template: "I ___ (feel) embarrassed but grateful.", verb: "feel", answer: "felt"}
+                ]
+            },
+            {
+                question: "Tell me about an unexpected situation you encountered while shopping.",
+                korean: "쇼핑을 하다가 겪었던 예상치 못한 상황에 대해 말해 주세요.",
+                sentences: [
+                    {template: "I ___ (choose) a shirt but it was the wrong size.", verb: "choose", answer: "chose"},
+                    {template: "The cashier ___ (sell) me the last one they had.", verb: "sell", answer: "sold"},
+                    {template: "I ___ (think) I'd exchange it later.", verb: "think", answer: "thought"}
+                ]
+            },
+            {
+                question: "Tell me about a time when you were late for an appointment or had to cancel it.",
+                korean: "약속 시간에 늦거나 약속을 취소해야 했던 경험에 대해 이야기해 주세요.",
+                sentences: [
+                    {template: "I ___ (oversleep) and woke up 30 minutes late.", verb: "oversleep", answer: "overslept"},
+                    {template: "I ___ (throw) on my clothes and rushed out.", verb: "throw", answer: "threw"},
+                    {template: "I ___ (ride) my bike as fast as I could.", verb: "ride", answer: "rode"}
+                ]
+            },
+            {
+                question: "When was your most memorable holiday from your childhood, and what happened?",
+                korean: "어릴 적 가장 기억에 남는 명절이나 휴일은 언제였으며, 무슨 일이 있었나요?",
+                sentences: [
+                    {template: "My family ___ (hold) a big reunion during Chuseok.", verb: "hold", answer: "held"},
+                    {template: "We ___ (eat) delicious traditional food together.", verb: "eat", answer: "ate"},
+                    {template: "I ___ (wear) a hanbok for the first time.", verb: "wear", answer: "wore"}
+                ]
+            },
+            {
+                question: "Tell me in detail about the most surprising, sad, or happy thing you experienced recently.",
+                korean: "최근에 겪은 가장 놀랍거나 슬펐거나 기뻤던 일에 대해 자세히 말해 주세요.",
+                sentences: [
+                    {template: "I ___ (win) a small lottery prize last week.", verb: "win", answer: "won"},
+                    {template: "I ___ (sing) and danced when I found out.", verb: "sing", answer: "sang"},
+                    {template: "I ___ (understand) that luck can strike anytime.", verb: "understand", answer: "understood"}
+                ]
+            }
+        ];
+
+        // 게임 상태
+        let currentQuestionIndex = 0;
+        let currentSentenceIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let usedVerbs = new Set();
+        let allSentences = [];
+
+        // 모든 문장을 평평하게 펼치기
+        questions.forEach(q => {
+            q.sentences.forEach(s => {
+                allSentences.push({
+                    ...s,
+                    question: q.question,
+                    korean: q.korean
+                });
+            });
+        });
+
+        // 셔플 함수
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 문장 셔플
+        allSentences = shuffle(allSentences);
+
+        // DOM 요소
+        const questionNumber = document.getElementById('questionNumber');
+        const questionText = document.getElementById('questionText');
+        const questionKorean = document.getElementById('questionKorean');
+        const sentenceText = document.getElementById('sentenceText');
+        const countdown = document.getElementById('countdown');
+        const timerNumber = document.getElementById('timerNumber');
+        const answerReveal = document.getElementById('answerReveal');
+        const revealAnswer = document.getElementById('revealAnswer');
+        const revealForms = document.getElementById('revealForms');
+        const correctDisplay = document.getElementById('correct');
+        const incorrectDisplay = document.getElementById('incorrect');
+        const progressDisplay = document.getElementById('progress');
+
+        let countdownInterval;
+        let timeLeft = 3;
+
+        // 현재 문제 로드
+        function loadQuestion() {
+            if (currentSentenceIndex >= allSentences.length) {
+                showComplete();
+                return;
+            }
+
+            const current = allSentences[currentSentenceIndex];
+            
+            questionNumber.textContent = `Question ${currentSentenceIndex + 1} / ${allSentences.length}`;
+            questionText.textContent = current.question;
+            questionKorean.textContent = current.korean;
+            
+            // 문장에서 동사 부분을 하이라이트
+            const highlighted = current.template.replace(
+                `___ (${current.verb})`,
+                `<span class="blank">___</span> <span class="verb-hint">(${current.verb})</span>`
+            );
+            sentenceText.innerHTML = highlighted;
+
+            // UI 리셋
+            countdown.style.display = 'block';
+            answerReveal.style.display = 'none';
+            timeLeft = 3;
+            timerNumber.textContent = timeLeft;
+
+            // 애니메이션 리셋
+            document.querySelector('.question-card').style.animation = 'none';
+            setTimeout(() => {
+                document.querySelector('.question-card').style.animation = 'slideUp 0.5s ease-out';
+            }, 10);
+
+            // 카운트다운 시작
+            startCountdown();
+        }
+
+        // 카운트다운 시작
+        function startCountdown() {
+            clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerNumber.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    revealAnswer();
+                }
+            }, 1000);
+        }
+
+        // 정답 공개
+        function revealAnswer() {
+            const current = allSentences[currentSentenceIndex];
+            const verbData = verbs.find(v => v.base === current.verb);
+
+            countdown.style.display = 'none';
+            answerReveal.style.display = 'block';
+            
+            revealAnswer.textContent = current.answer;
+            revealForms.textContent = `${verbData.base} - ${verbData.past} - ${verbData.pp}`;
+
+            usedVerbs.add(current.verb);
+            correctCount++; // 스피킹 연습이므로 모두 정답으로 카운트
+            
+            correctDisplay.textContent = correctCount;
+            progressDisplay.textContent = `${usedVerbs.size}/100`;
+        }
+
+        // 다음 문제
+        function nextQuestion() {
+            currentSentenceIndex++;
+            loadQuestion();
+        }
+
+        // 완료 화면
+        function showComplete() {
+            questionNumber.textContent = '🎉 완료!';
+            questionText.textContent = `총 ${allSentences.length}개 문장 완료!`;
+            questionKorean.textContent = `학습한 동사: ${usedVerbs.size}개`;
+            sentenceText.innerHTML = '<strong>수고하셨습니다!</strong> 다시 도전하려면 페이지를 새로고침하세요.';
+            
+            countdown.style.display = 'none';
+            answerReveal.style.display = 'none';
+            
+            const completeMsg = document.createElement('div');
+            completeMsg.className = 'answer-reveal';
+            completeMsg.innerHTML = `
+                <div class="reveal-label">🏆 학습 완료</div>
+                <div class="reveal-answer" style="font-size: 1.5rem;">OPIc AL 목표를 향해<br>한 걸음 더 가까워졌습니다!</div>
+            `;
+            document.querySelector('.question-card').appendChild(completeMsg);
+        }
+
+        // 스페이스바 이벤트
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && answerReveal.style.display === 'block') {
+                e.preventDefault();
+                nextQuestion();
+            }
+        });
+
+        // 초기 로드
+        loadQuestion();
+        }); // DOMContentLoaded 끝
+    </script>
+</body>
+</html>
