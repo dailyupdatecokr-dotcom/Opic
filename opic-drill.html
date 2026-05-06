@@ -71,6 +71,110 @@
             font-weight: 400;
         }
 
+        /* 시작 화면 */
+        .start-screen {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #00ccff);
+        }
+
+        .start-info {
+            margin-bottom: 2.5rem;
+        }
+
+        .start-info-item {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .start-info-item strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .start-rule {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--accent-dim);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .start-rule-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .start-rule-list {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            list-style: none;
+            padding: 0;
+        }
+
+        .start-rule-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .start-rule-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .start-button {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            padding: 1.2rem 3rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
         .score-board {
             display: flex;
             justify-content: center;
@@ -301,6 +405,28 @@
             50% { opacity: 0.5; }
         }
 
+        .restart-button {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin-top: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .restart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
         footer {
             text-align: center;
             margin-top: 4rem;
@@ -318,6 +444,10 @@
 
         footer a:hover {
             color: var(--accent-dim);
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         @media (max-width: 640px) {
@@ -341,8 +471,13 @@
                 padding: 1.5rem;
             }
 
-            .buttons {
-                flex-direction: column;
+            .start-screen {
+                padding: 2rem 1.5rem;
+            }
+
+            .start-button {
+                font-size: 1rem;
+                padding: 1rem 2rem;
             }
         }
     </style>
@@ -351,42 +486,66 @@
     <div class="container">
         <header>
             <h1>OPIc Past Tense Drill</h1>
-            <p class="subtitle">100개 불규칙 동사 × 20개 기출문장 완벽 정복</p>
+            <p class="subtitle">기출 20문제 × 3문장 = 60문장 스파르타 연습</p>
         </header>
 
-        <div class="score-board">
-            <div class="score-item">
-                <div class="score-label">완료</div>
-                <div class="score-value" id="correct">0</div>
+        <!-- 시작 화면 -->
+        <div class="start-screen" id="startScreen">
+            <div class="start-info">
+                <p class="start-info-item">📚 총 <strong>60개 문장</strong> 연습</p>
+                <p class="start-info-item">🎯 오픽 빈출 <strong>불규칙 동사 100개</strong> 학습</p>
+                <p class="start-info-item">⏱️ 문장당 <strong>3초</strong> 안에 과거형 떠올리기</p>
             </div>
-            <div class="score-item">
-                <div class="score-label">학습 동사</div>
-                <div class="score-value" id="progress">0/100</div>
+
+            <div class="start-rule">
+                <div class="start-rule-title">진행 방식</div>
+                <ul class="start-rule-list">
+                    <li>문제와 빈칸 문장이 나타납니다</li>
+                    <li>3초 카운트다운 동안 과거형을 입으로 말해보세요</li>
+                    <li>정답이 공개되면 따라 읽고 외우세요</li>
+                    <li>화면 터치 또는 스페이스바로 다음 문제로 넘어갑니다</li>
+                </ul>
             </div>
+
+            <button class="start-button" id="startButton">START</button>
         </div>
 
-        <div class="question-card" id="questionCard">
-            <div class="question-number" id="questionNumber">Question 1</div>
-            <div class="question-text" id="questionText"></div>
-            <div class="question-korean" id="questionKorean"></div>
-            
-            <div class="sentence-practice">
-                <div class="sentence-label">실전 문장 연습</div>
-                <div class="sentence-text" id="sentenceText"></div>
-            </div>
-
-            <div class="countdown-timer" id="countdown">
-                <div class="timer-circle">
-                    <div class="timer-number" id="timerNumber">3</div>
+        <!-- 게임 화면 (처음엔 숨김) -->
+        <div class="game-screen hidden" id="gameScreen">
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="score-label">완료</div>
+                    <div class="score-value" id="correct">0</div>
                 </div>
-                <div class="timer-label">초 후 정답 공개</div>
+                <div class="score-item">
+                    <div class="score-label">학습 동사</div>
+                    <div class="score-value" id="progress">0/100</div>
+                </div>
             </div>
 
-            <div class="answer-reveal" id="answerReveal" style="display: none;">
-                <div class="reveal-label">정답</div>
-                <div class="reveal-answer" id="revealAnswer"></div>
-                <div class="reveal-forms" id="revealForms"></div>
-                <div class="reveal-hint">스페이스바를 눌러 다음 문제로 →</div>
+            <div class="question-card" id="questionCard">
+                <div class="question-number" id="questionNumber">Question 1</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="question-korean" id="questionKorean"></div>
+                
+                <div class="sentence-practice">
+                    <div class="sentence-label">실전 문장 연습</div>
+                    <div class="sentence-text" id="sentenceText"></div>
+                </div>
+
+                <div class="countdown-timer" id="countdown">
+                    <div class="timer-circle">
+                        <div class="timer-number" id="timerNumber">3</div>
+                    </div>
+                    <div class="timer-label">초 후 정답 공개</div>
+                </div>
+
+                <div class="answer-reveal hidden" id="answerReveal">
+                    <div class="reveal-label">정답</div>
+                    <div class="reveal-answer" id="revealAnswerText"></div>
+                    <div class="reveal-forms" id="revealForms"></div>
+                    <div class="reveal-hint">화면 터치 또는 스페이스바 → 다음 문제</div>
+                </div>
             </div>
         </div>
 
@@ -396,7 +555,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         // 100개 불규칙 동사 데이터
         const verbs = [
             {base: "become", past: "became", pp: "become"},
@@ -450,10 +609,12 @@
             {base: "let", past: "let", pp: "let"},
             {base: "lie", past: "lay", pp: "lain"},
             {base: "light", past: "lit", pp: "lit"},
+            {base: "live", past: "lived", pp: "lived"},
             {base: "lose", past: "lost", pp: "lost"},
             {base: "make", past: "made", pp: "made"},
             {base: "mean", past: "meant", pp: "meant"},
             {base: "meet", past: "met", pp: "met"},
+            {base: "open", past: "opened", pp: "opened"},
             {base: "overcome", past: "overcame", pp: "overcome"},
             {base: "oversleep", past: "overslept", pp: "overslept"},
             {base: "pay", past: "paid", pp: "paid"},
@@ -686,12 +847,13 @@
         ];
 
         // 게임 상태
-        let currentQuestionIndex = 0;
         let currentSentenceIndex = 0;
         let correctCount = 0;
-        let incorrectCount = 0;
         let usedVerbs = new Set();
         let allSentences = [];
+        let countdownInterval;
+        let timeLeft = 3;
+        let isAnswerShowing = false;
 
         // 모든 문장을 평평하게 펼치기
         questions.forEach(q => {
@@ -713,10 +875,10 @@
             return array;
         }
 
-        // 문장 셔플
-        allSentences = shuffle(allSentences);
-
         // DOM 요소
+        const startScreen = document.getElementById('startScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const startButton = document.getElementById('startButton');
         const questionNumber = document.getElementById('questionNumber');
         const questionText = document.getElementById('questionText');
         const questionKorean = document.getElementById('questionKorean');
@@ -724,14 +886,23 @@
         const countdown = document.getElementById('countdown');
         const timerNumber = document.getElementById('timerNumber');
         const answerReveal = document.getElementById('answerReveal');
-        const revealAnswer = document.getElementById('revealAnswer');
+        const revealAnswerText = document.getElementById('revealAnswerText');
         const revealForms = document.getElementById('revealForms');
         const correctDisplay = document.getElementById('correct');
-        const incorrectDisplay = document.getElementById('incorrect');
         const progressDisplay = document.getElementById('progress');
 
-        let countdownInterval;
-        let timeLeft = 3;
+        // 게임 시작
+        function startGame() {
+            allSentences = shuffle(allSentences);
+            currentSentenceIndex = 0;
+            correctCount = 0;
+            usedVerbs.clear();
+            
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            loadQuestion();
+        }
 
         // 현재 문제 로드
         function loadQuestion() {
@@ -754,16 +925,11 @@
             sentenceText.innerHTML = highlighted;
 
             // UI 리셋
-            countdown.style.display = 'block';
-            answerReveal.style.display = 'none';
+            countdown.classList.remove('hidden');
+            answerReveal.classList.add('hidden');
+            isAnswerShowing = false;
             timeLeft = 3;
             timerNumber.textContent = timeLeft;
-
-            // 애니메이션 리셋
-            document.querySelector('.question-card').style.animation = 'none';
-            setTimeout(() => {
-                document.querySelector('.question-card').style.animation = 'slideUp 0.5s ease-out';
-            }, 10);
 
             // 카운트다운 시작
             startCountdown();
@@ -779,65 +945,82 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    revealAnswer();
+                    showAnswer();
                 }
             }, 1000);
         }
 
         // 정답 공개
-        function revealAnswer() {
+        function showAnswer() {
             const current = allSentences[currentSentenceIndex];
             const verbData = verbs.find(v => v.base === current.verb);
 
-            countdown.style.display = 'none';
-            answerReveal.style.display = 'block';
+            countdown.classList.add('hidden');
+            answerReveal.classList.remove('hidden');
             
-            revealAnswer.textContent = current.answer;
-            revealForms.textContent = `${verbData.base} - ${verbData.past} - ${verbData.pp}`;
+            revealAnswerText.textContent = current.answer;
+            
+            if (verbData) {
+                revealForms.textContent = `${verbData.base} - ${verbData.past} - ${verbData.pp}`;
+            } else {
+                revealForms.textContent = `${current.verb} - ${current.answer}`;
+            }
 
             usedVerbs.add(current.verb);
-            correctCount++; // 스피킹 연습이므로 모두 정답으로 카운트
+            correctCount++;
             
             correctDisplay.textContent = correctCount;
             progressDisplay.textContent = `${usedVerbs.size}/100`;
+            
+            isAnswerShowing = true;
         }
 
         // 다음 문제
         function nextQuestion() {
+            if (!isAnswerShowing) return;
             currentSentenceIndex++;
             loadQuestion();
         }
 
         // 완료 화면
         function showComplete() {
-            questionNumber.textContent = '🎉 완료!';
-            questionText.textContent = `총 ${allSentences.length}개 문장 완료!`;
-            questionKorean.textContent = `학습한 동사: ${usedVerbs.size}개`;
-            sentenceText.innerHTML = '<strong>수고하셨습니다!</strong> 다시 도전하려면 페이지를 새로고침하세요.';
-            
-            countdown.style.display = 'none';
-            answerReveal.style.display = 'none';
-            
-            const completeMsg = document.createElement('div');
-            completeMsg.className = 'answer-reveal';
-            completeMsg.innerHTML = `
-                <div class="reveal-label">🏆 학습 완료</div>
-                <div class="reveal-answer" style="font-size: 1.5rem;">OPIc AL 목표를 향해<br>한 걸음 더 가까워졌습니다!</div>
+            const questionCard = document.getElementById('questionCard');
+            questionCard.innerHTML = `
+                <div style="text-align:center; padding: 2rem 0;">
+                    <div class="reveal-label">🏆 학습 완료</div>
+                    <h2 style="font-family: 'Space Mono', monospace; font-size: 2rem; color: var(--accent); margin: 1.5rem 0;">완료!</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">총 ${allSentences.length}개 문장 완료</p>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">학습한 동사: <strong style="color: var(--accent);">${usedVerbs.size}개</strong></p>
+                    <p style="color: var(--accent); font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem;">OPIc AL 목표를 향해<br>한 걸음 더 가까워졌습니다!</p>
+                    <button class="restart-button" id="restartButton">다시 시작</button>
+                </div>
             `;
-            document.querySelector('.question-card').appendChild(completeMsg);
+            
+            document.getElementById('restartButton').addEventListener('click', () => {
+                location.reload();
+            });
         }
 
-        // 스페이스바 이벤트
+        // 이벤트 리스너
+        startButton.addEventListener('click', startGame);
+
+        // 스페이스바로 다음 문제
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && answerReveal.style.display === 'block') {
+            if (e.code === 'Space' && isAnswerShowing) {
                 e.preventDefault();
                 nextQuestion();
             }
         });
 
-        // 초기 로드
-        loadQuestion();
-        }); // DOMContentLoaded 끝
+        // 화면 터치로 다음 문제 (모바일)
+        document.addEventListener('click', (e) => {
+            // 스타트 버튼이나 재시작 버튼 클릭은 제외
+            if (e.target.id === 'startButton' || e.target.id === 'restartButton') return;
+            if (isAnswerShowing) {
+                nextQuestion();
+            }
+        });
+    });
     </script>
 </body>
 </html>
